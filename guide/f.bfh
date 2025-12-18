@@ -1,0 +1,37 @@
+/* function-like interface for brainfuck */
+
+{LOAD ../std/std.bfh}
+
+{D PROLOG 
+CYCLE
+    DECR
+    {x100{NEXT}}
+    INCR
+    {x100{PREV}}
+CYCL
+}
+
+{D EPILOG 
+CYCLE
+    DECR
+    {x100{PREV}}
+    INCR
+    {x100{NEXT}}
+CYCL
+}
+
+{D EPINEXT 
+TONULL
+NEXT
+TONULL
+PREV
+}
+
+{D ENDF
+{x101{PREV}}
+}
+
+PROLOG
+EPILOG
+EPINEXT
+ENDF
