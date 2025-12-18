@@ -8,7 +8,7 @@ CYCLE
     {x100{NEXT}}
     INCR
     {x100{PREV}}
-CYCL
+CYCL {! PROLOG}
 }
 
 {D EPILOG 
@@ -17,7 +17,7 @@ CYCLE
     {x100{PREV}}
     INCR
     {x100{NEXT}}
-CYCL
+CYCL {! EPILOG}
 }
 
 {D EPINEXT 
@@ -27,11 +27,7 @@ TONULL
 PREV
 }
 
+{COM ENDF like bx lr}
 {D ENDF
-{x101{PREV}}
+{x101{PREV}} {! ENDF}
 }
-
-PROLOG
-EPILOG
-EPINEXT
-ENDF
