@@ -1,0 +1,17 @@
+/* 
+ * This header provides
+ * some BFC-specific
+ * extensions
+ * for absolute adresses
+ * operations
+ */
+
+/* MOV operations */
+
+{DEF ETAPE _>} /* goto tape end */
+{DEF STAPE _<} /* goto tape start */
+
+/* COND operations */
+
+{DEF ISETAPE _?>} /* check if we are at ETAPE. if yes, TONULL to break the cycle */
+{DEF ISSTAPE _?<} /* check if we are at STAPE. if yes, TONULL to break the cycle */

@@ -1,6 +1,6 @@
 /* function-like interface for brainfuck */
 
-{LOAD ../std/std.bfh}
+{LOAD ../inc/std/std.bfh}
 
 {D PROLOG 
 CYCLE

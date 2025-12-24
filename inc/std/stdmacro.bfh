@@ -1,0 +1,22 @@
+/* standart macros */
+
+{D TONULL
+CYCLE
+    DECR
+CYCL}
+
+{D MOVNXT
+CYCLE
+    DECR
+    NEXT
+    INCR
+    PREV
+CYCL}
+
+{D MOVPR
+CYCLE
+    DECR
+    PREV
+    INCR
+    NEXT
+CYCL}

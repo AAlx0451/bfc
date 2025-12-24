@@ -1,0 +1,10 @@
+/* bf standart definitions */
+
+{DEF CYCLE [}
+{DEF CYCL ]}
+{DEF INCR +}
+{DEF DECR -}
+{DEF PREV <}
+{DEF NEXT >}
+{DEF PRINT .}
+{DEF READ ,}

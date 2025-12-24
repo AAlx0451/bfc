@@ -1,17 +1,7 @@
-/* standart definitions */
+/* 
+ * This header includes all
+ * Of the BFpp stdlib
+ */
 
-{DEF CYCLE [}
-{DEF CYCL ]}
-{DEF INCR +}
-{DEF DECR -}
-{DEF PREV <}
-{DEF NEXT >}
-{DEF PRINT .}
-
-/* standart macros */
-
-{D TONULL
-CYCLE
-    DECR
-CYCL
-}
+{LOAD std/stdop.bfh} /* basic operations */
+{LOAD std/stdmacro.bfh} /* macros */

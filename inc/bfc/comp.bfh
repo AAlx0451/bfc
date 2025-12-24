@@ -1,6 +1,0 @@
-/* This header provides
- * Some BFC-specific
- * Extensions
- */
-
-{DEF ETAPE _>} /* goto tape end */
