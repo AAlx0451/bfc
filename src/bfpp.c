@@ -300,7 +300,7 @@ char *expand_macros_once(const char *input) {
             char *body = find_macro_body(word);
             const char *to_append = body ? body : word;
             size_t append_len = strlen(to_append);
-            
+
             while (len + append_len >= cap) {
                 cap *= 2;
                 buf = realloc(buf, cap);
@@ -320,6 +320,60 @@ char *expand_macros_once(const char *input) {
     return buf;
 }
 
+// Logic to resolve file path using BFPP env variable if not quoted
+char *resolve_path(const char *arg) {
+    // 1. Check if quoted
+    if (arg[0] == '"') {
+        size_t len = strlen(arg);
+        // Strip quotes if properly terminated
+        if (len >= 2 && arg[len - 1] == '"') {
+            char *path = strdup(arg + 1);
+            path[len - 2] = '\0';
+            return path;
+        }
+        // Fallback for malformed quotes
+        return strdup(arg);
+    }
+
+    // 2. Unquoted: search BFPP
+    char *bfpp = getenv("BFPP");
+    if (bfpp) {
+        char *paths = strdup(bfpp);
+	size_t len = strlen(paths);
+	while (len > 0 && isspace((unsigned char)paths[len - 1])) {
+		paths[--len] = '\0';
+	}
+        char *token = strtok(paths, ":");
+        while (token) {
+            // Construct full path: path/arg
+            size_t needed = strlen(token) + 1 + strlen(arg) + 1;
+            char *full_path = malloc(needed);
+            sprintf(full_path, "%s/%s", token, arg);
+            
+            // Check if file exists
+            FILE *f = fopen(full_path, "r");
+            if (f) {
+                fclose(f);
+                free(paths);
+                return full_path; // Found!
+            }
+            free(full_path);
+            token = strtok(NULL, ":");
+        }
+        free(paths);
+    }
+
+    // 3. Fallback: try current directory directly
+    FILE *f = fopen(arg, "r");
+    if (f) {
+        fclose(f);
+        return strdup(arg);
+    }
+
+    // Not found
+    return NULL;
+}
+
 void process() {
     int c;
     while ((c = get_char()) != EOF) {
@@ -335,16 +389,25 @@ void process() {
             }
             continue;
         }
-        
+
         if (c == '{') {
+            skip_whitespace();
             int next = peek_char();
             if (strchr("LDU?Mx!C", next)) {
                 if (next == 'L') {
-                    read_word();
-                    char *path = read_path_until_brace();
+                    read_word(); // consume "LOAD"
+                    char *arg = read_path_until_brace();
                     consume_until_brace();
-                    push_file(path);
-                    free(path);
+                    
+                    char *resolved = resolve_path(arg);
+                    if (resolved) {
+                        push_file(resolved);
+                        free(resolved);
+                    } else {
+                        fprintf(stderr, "Error: Could not find file '%s' in current directory or BFPP path.\n", arg);
+                        exit(1);
+                    }
+                    free(arg);
                 } else if (next == 'D') {
                     char *cmd = read_word();
                     skip_whitespace();
@@ -382,10 +445,10 @@ void process() {
                         consume_until_brace();
                         continue;
                     }
-                    
+
                     char *raw_body = read_definition_body(); 
                     consume_until_brace(); 
-                    
+
                     if (count > 0 && raw_body && *raw_body) {
                         char *expanded_body = expand_macros_once(raw_body);
                         size_t body_len = strlen(expanded_body);

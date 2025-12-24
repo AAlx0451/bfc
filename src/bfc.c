@@ -3,6 +3,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#define TAPE_CONST_VAL 65536
+
 void flush_op(FILE *out, int *op, int *count) {
     if (*op) {
         if (*op == '+') fprintf(out, "tape[ptr] += %d;\n", *count);
@@ -16,7 +18,8 @@ void flush_op(FILE *out, int *op, int *count) {
 
 void transpile(FILE *in, FILE *out, int optimize) {
     fprintf(out, "#include <stdio.h>\n");
-    fprintf(out, "unsigned char tape[65536];\n");
+    fprintf(out, "#define TAPE %d\n", TAPE_CONST_VAL); 
+    fprintf(out, "unsigned char tape[TAPE];\n");
     fprintf(out, "int ptr = 0;\n");
     fprintf(out, "int main() {\n");
 
@@ -42,6 +45,32 @@ void transpile(FILE *in, FILE *out, int optimize) {
                         }
                         ungetc(nnc, in);
                     }
+                }
+                continue;
+            } else {
+                ungetc(next, in);
+            }
+        }
+
+        if (c == '_') {
+            int next = fgetc(in);
+            if (next == '>' || next == '<' || next == '?') {
+                if (optimize) flush_op(out, &last_op, &count);
+                
+                if (next == '>') {
+                    fprintf(out, "ptr = TAPE - 1;\n");
+                } else if (next == '<') {
+                    fprintf(out, "ptr = 0;\n");
+                } else if (next == '?') {
+                    fprintf(out, "if (ptr < 255) {\n");
+                    fprintf(out, "    if ((char)tape[ptr] < 0) tape[ptr] = -tape[ptr];\n");
+                    fprintf(out, "} else {\n");
+                    fprintf(out, "    tape[ptr]++;\n");
+                    fprintf(out, "    while(tape[ptr]) {\n");
+                    fprintf(out, "        tape[ptr]++;\n");
+                    fprintf(out, "        ptr++;\n");
+                    fprintf(out, "    }\n");
+                    fprintf(out, "}\n");
                 }
                 continue;
             } else {
