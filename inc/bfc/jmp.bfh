@@ -1,0 +1,7 @@
+/*
+ * This header provides
+ * BFC-specific return
+ */
+
+{DEF PADR _#} /* pushed current ADR to adr stack */
+{DEF GADR _$} /* unconditional branch to saved ADR */

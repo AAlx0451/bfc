@@ -1,0 +1,115 @@
+/*
+ * Brainfuck stack implementation.
+ * Please use ONE cell for stack usage (0 recommended)
+ */
+
+{LOAD std/std.bfh}
+
+{D TO_STACK {x1000{NEXT}}}
+{D FROM_STACK {x1000{PREV}}}
+
+{D PUSH
+    TO_STACK
+    PREV
+    TONULL
+    NEXT
+    FROM_STACK
+
+    CYCLE
+        TO_STACK 
+        PREV
+        INCR
+        NEXT
+        FROM_STACK
+        DECR
+    CYCL
+
+    TO_STACK
+
+    CYCLE
+        NEXT
+        NEXT
+    CYCL
+
+    INCR
+    PREV
+    PREV
+
+    CYCLE
+        NEXT
+
+        CYCLE
+            DECR
+            NEXT
+            NEXT
+            INCR
+            PREV
+            PREV
+        CYCL
+
+        PREV
+        PREV 
+        PREV
+    CYCL
+
+    NEXT
+
+    CYCLE
+        DECR
+        NEXT
+        NEXT
+        INCR
+        PREV
+        PREV 
+    CYCL
+
+    NEXT
+    FROM_STACK
+}
+
+{D POP
+    TONULL
+    TO_STACK
+    NEXT
+
+    CYCLE
+        PREV
+        FROM_STACK
+        INCR
+        TO_STACK
+        NEXT
+        DECR
+    CYCL
+
+    NEXT
+
+    CYCLE
+        NEXT
+
+        CYCLE
+              DECR
+              PREV
+              PREV
+              INCR
+              NEXT
+              NEXT
+        CYCL
+
+        NEXT
+    CYCL
+
+    PREV
+    PREV
+    TONULL
+    PREV
+    PREV
+    
+    CYCLE
+        PREV 
+        PREV
+    CYCL
+
+    NEXT
+    NEXT
+    FROM_STACK
+}

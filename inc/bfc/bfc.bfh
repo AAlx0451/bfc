@@ -1,0 +1,9 @@
+/*
+ * This header includes
+ * all BFC-specific
+ * headers
+ */
+
+{LOAD bfc/adr.bfh}
+{LOAD bfc/jmp.bfh}
+{LOAD stack/bfc/stack.bfh}

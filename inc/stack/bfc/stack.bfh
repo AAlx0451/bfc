@@ -1,0 +1,7 @@
+/* 
+ * This header provides 
+ * BFC-specific stack implementation
+ */
+
+{D PUSH _^}
+{D POP _&}

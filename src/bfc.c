@@ -20,7 +20,11 @@ void transpile(FILE *in, FILE *out, int optimize) {
     fprintf(out, "#include <stdio.h>\n");
     fprintf(out, "#define TAPE %d\n", TAPE_CONST_VAL); 
     fprintf(out, "unsigned char tape[TAPE];\n");
+    fprintf(out, "unsigned char vstack[TAPE];\n");
+    fprintf(out, "int pstack[TAPE];\n");
     fprintf(out, "int ptr = 0;\n");
+    fprintf(out, "int vsp = 0;\n");
+    fprintf(out, "int psp = 0;\n");
     fprintf(out, "int main() {\n");
 
     int c;
@@ -52,7 +56,7 @@ void transpile(FILE *in, FILE *out, int optimize) {
                 ungetc(next, in);
             }
         }
-        
+
         if (c == '_') {
             int next = fgetc(in);
             if (next == '>') {
@@ -62,6 +66,22 @@ void transpile(FILE *in, FILE *out, int optimize) {
             } else if (next == '<') {
                 if (optimize) flush_op(out, &last_op, &count);
                 fprintf(out, "    ptr = 0;\n");
+                continue;
+            } else if (next == '^') {
+                if (optimize) flush_op(out, &last_op, &count);
+                fprintf(out, "    if (vsp < TAPE) vstack[vsp++] = tape[ptr];\n");
+                continue;
+            } else if (next == '&') {
+                if (optimize) flush_op(out, &last_op, &count);
+                fprintf(out, "    if (vsp > 0) tape[ptr] = vstack[--vsp];\n");
+                continue;
+            } else if (next == '#') {
+                if (optimize) flush_op(out, &last_op, &count);
+                fprintf(out, "    if (psp < TAPE) pstack[psp++] = ptr;\n");
+                continue;
+            } else if (next == '$') {
+                if (optimize) flush_op(out, &last_op, &count);
+                fprintf(out, "    if (psp > 0) ptr = pstack[--psp];\n");
                 continue;
             } else if (next == '?') {
                 int third = fgetc(in);
@@ -152,7 +172,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Error: No input file specified\n");
         return 1;
     }
-    
+
     char cmd[4096];
     snprintf(cmd, sizeof(cmd), "bfpp \"%s\"", input_file);
 
