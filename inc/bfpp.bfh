@@ -1,0 +1,6 @@
+/* 
+ * Entry point
+ */
+
+{LOAD stack/stack.bfh}
+{LOAD std/std.bfh}
