@@ -2,5 +2,7 @@
  * Entry point
  */
 
+{S bfpp.bfh}
+
 {LOAD stack/stack.bfh}
 {LOAD std/std.bfh}

@@ -1,5 +1,7 @@
 /* standart macros */
 
+{S std/stdmacro.bfh}
+
 {D TONULL
 CYCLE
     DECR

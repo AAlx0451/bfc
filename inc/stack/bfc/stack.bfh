@@ -3,5 +3,8 @@
  * BFC-specific stack implementation
  */
 
+{S stack/bfc/stack.bfh}
+
 {D PUSH _^}
 {D POP _&}
+

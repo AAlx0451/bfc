@@ -3,6 +3,8 @@
  * Please use ONE cell for stack usage (0 recommended)
  */
 
+{S stack/stack.bfh}
+
 {LOAD std/std.bfh}
 
 {D TO_STACK {x1000{NEXT}}}

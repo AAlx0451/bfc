@@ -1,0 +1,32 @@
+{S func/func.bfh}
+{L std/std.bfh}
+{L stack/stack.bfh}
+
+{F 
+DOF(TIMES, COM)
+{xTIMES{COM}}
+}
+
+{F
+INCRF(VAL)
+DOF(VAL, INCR)
+}
+
+{F
+DECRF(VAL)
+DOF(VAL, DECR)
+}
+
+{F
+VALF(VAL)
+TONULL
+DOF(VAL, INCR)
+}
+
+{F
+PRINTF(CODE)
+PUSH
+VALF(CODE)
+PRINT
+POP
+}

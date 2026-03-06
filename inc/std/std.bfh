@@ -3,5 +3,7 @@
  * Of the BFpp stdlib
  */
 
+{S std/std.bfh}
+
 {LOAD std/stdop.bfh} /* basic operations */
 {LOAD std/stdmacro.bfh} /* macros */

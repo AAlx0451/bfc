@@ -4,6 +4,8 @@
  * headers
  */
 
+{S bfc/bfc.bfh}
+
 {LOAD bfc/adr.bfh}
 {LOAD bfc/jmp.bfh}
 {LOAD stack/bfc/stack.bfh}

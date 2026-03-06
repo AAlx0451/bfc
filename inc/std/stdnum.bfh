@@ -1,0 +1,32 @@
+{S std/stdnum.bfh}
+
+{L func/func.bfh}
+{L std/std.bfh}
+
+{D NULL TONULL}
+{D NIL TONULL}
+{D null TONULL}
+{D nil TONULL}
+
+{D SOH +}
+{D TOSOH TONULL INCR}
+
+/* some more... */
+
+{D NL TONULL
+DO(10, +)}
+{D NEWLINE NL}
+
+/* ... */
+
+{D 0 TONULL
+DO(48, +)}
+{D ZERO TONULL
+DO(48, +)}
+
+/* ... */
+
+{D a TONULL
+DO(97, +)}
+
+a

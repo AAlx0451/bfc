@@ -6,7 +6,9 @@
  * operations
  */
 
-/* MOV operations */
+{S bfc/adr.bfh}
+
+/* GO operations */
 
 {DEF ETAPE _>} /* goto tape end */
 {DEF STAPE _<} /* goto tape start */
