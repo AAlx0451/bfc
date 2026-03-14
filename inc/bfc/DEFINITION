@@ -1,0 +1,28 @@
+BFpp library -- bfc definition
+
+	SYNOPSYS
+
+{LOAD bfc/bfc.bfh}
+
+	DEFINITION
+
+unless all BFpp modules, bfc is optional and compiler-dependent
+it consists of three headers: stack.bfh for bfc-specific values stack, jmp.bfh for pointers stack, adr.bfh for tape adressing
+
+	MACROS
+
+PUSH, POP -- push and pop to stack
+PADR, GADR -- push and goto to adr
+STAPE, ETAPE -- go to the start and the end of the tape
+ISSTAPE, ISETAPE -- null cell if it's S,ETAPE (useful for memory mapping)
+
+	BFC BEHAVIOR
+
+PUSH -- if (vsp < TAPE) vstack[vsp++] = tape[ptr]
+POP -- if (vsp > 0) tape[ptr] = vstack[--vsp]
+ISETAPE -- if (ptr == TAPE - 1) tape[ptr] = 0
+ISSTAPE -- if (ptr == 0) tape[ptr] = 0
+ETAPE -- ptr = TAPE - 1
+STAPE -- ptr = 0
+PADR -- if (psp < TAPE) pstack[psp++] = ptr
+GADR -- if (psp > 0) ptr = pstack[--psp]
