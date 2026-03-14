@@ -1,0 +1,40 @@
+BFpp library -- std definition
+
+	SYNOPSYS
+
+{LOAD std/std.bfh}
+
+	DEFINITION
+
+std is a basic definitions set for bfpp library. 
+it consist of two headers: stdop.bfh for "><[]+-.,", stdmacro.bfh for "[-]"
+
+generally you shouldn't use std/std.bfh due to stdf/stdf.bfh
+
+	MACROS
+
+NEXT -- >
+PREV -- <
+INCR -- +
+DECR -- -
+CYCLE -- [
+CYCL -- ]
+READ -- ,
+PRINT -- .
+TONULL -- CYCLE DECR CYCL
+
+	FUNCTIONS
+
+see stdf/DEFINITION
+
+	BFC BEHAVIOR
+
+NEXT -- ptr += 1
+PREV -- ptr -= 1
+INCR -- tape[ptr] += 1
+DECR -- tape[ptr] -= 1
+CYCLE -- while(tape[ptr]) {
+CYCL -- }
+READ -- tape[ptr] = getchar()
+PRINT -- putchar(tape[ptr])
+TONULL -- tape[ptr] = 0

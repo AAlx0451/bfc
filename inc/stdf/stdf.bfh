@@ -1,0 +1,3 @@
+/* this header implements std module function bindings */
+
+{S stdf/stdf.bfh}

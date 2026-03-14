@@ -1,9 +1,9 @@
 /* 
  * This header includes all
- * Of the BFpp stdlib
+ * Of the BFpp std lib
  */
 
-{S std/std.bfh}
+{SET std/std.bfh}
 
 {LOAD std/stdop.bfh} /* basic operations */
 {LOAD std/stdmacro.bfh} /* macros */
